@@ -32,7 +32,7 @@ public class Day6 {
 
     private static long part1() {
 
-        patrol();
+        patrol(true);
 
         return countVisitedLocations();
     }
@@ -46,7 +46,7 @@ public class Day6 {
                 if (map.get(i).charAt(j) == '.') {
                     addNewObstacle(new Pair<>(i, j));
 
-                    if (!patrol()) {
+                    if (!patrol(false)) {
                         loopsFound++;
                     }
 
@@ -59,7 +59,7 @@ public class Day6 {
     }
 
 
-    private static boolean patrol() {
+    private static boolean patrol(boolean markLocationAsVisited) {
 
         int steps = 0;
 
@@ -69,7 +69,9 @@ public class Day6 {
             steps++;
 
             try {
-                markLocationAsVisited(currentLocation);
+                if (markLocationAsVisited){
+                    markLocationAsVisited(currentLocation);
+                }
 
                 while (getIconOnLocation(nextLocation).equals("#")) {
                     changeHeadingDirection();
