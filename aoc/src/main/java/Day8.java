@@ -109,15 +109,15 @@ public class Day8 {
         List<String> input = Util.readFile(".\\aoc\\src\\main\\resources\\day8.txt");
         readInput(input);
 
-        System.out.printf("D6 P1 = %s%n", part1());
+        System.out.printf("P1 = %s%n", part1());
         long endtime = System.currentTimeMillis();
-        System.out.println("D6 P1 took " + (endtime - startTime) + " milliseconds");
+        System.out.println("P1 took " + (endtime - startTime) + " milliseconds");
         System.out.println();
 
         startTime = System.currentTimeMillis();
-        System.out.printf("D6 P2 = %s%n", part2());
+        System.out.printf("P2 = %s%n", part2());
         endtime = System.currentTimeMillis();
-        System.out.println("D6 P2 took " + (endtime - startTime) + " milliseconds");
+        System.out.println("P2 took " + (endtime - startTime) + " milliseconds");
 
     }
 }
