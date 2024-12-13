@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Day5 {
+public class Day5 implements AdventOfCodeInterface {
 
     static List<Pair<Integer, Integer>> rulePairs = new ArrayList<>();
     static List<List<Integer>> validBooks = new ArrayList<>();
     static List<List<Integer>> inValidBooks = new ArrayList<>();
 
-    private static int part1() {
+    public long part1() {
 
         int total = 0;
 
@@ -22,7 +22,7 @@ public class Day5 {
         return total;
     }
 
-    private static int part2() {
+    public long part2() {
 
         int total = 0;
 
@@ -54,6 +54,11 @@ public class Day5 {
     private static Integer getValueOfMiddlePage(List<Integer> book) {
         int size = book.size();
         return book.get(size/2);
+    }
+
+    public void readInput(List<String> input) {
+        readRules(input);
+        createBooks(input);
     }
 
     private static void readRules(List<String> input) {
@@ -113,23 +118,5 @@ public class Day5 {
         }
 
         return newBook;
-    }
-
-    public static void main(String[] args) throws IOException {
-        long startTime = System.currentTimeMillis();
-        List<String> input = Util.readFile(".\\aoc\\src\\main\\resources\\day5.txt");
-
-        readRules(input);
-        createBooks(input);
-
-        System.out.printf("D5 P1 = %s%n", part1());
-        long endtime = System.currentTimeMillis();
-        System.out.println("D5 P1 took " + (endtime - startTime) + " milliseconds");
-        System.out.println();
-
-        startTime = System.currentTimeMillis();
-        System.out.printf("D5 P2 = %s%n", part2());
-        endtime = System.currentTimeMillis();
-        System.out.println("D5 P2 took " + (endtime - startTime) + " milliseconds");
     }
 }

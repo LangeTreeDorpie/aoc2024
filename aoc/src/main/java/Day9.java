@@ -10,13 +10,13 @@ import java.util.TreeSet;
 import static java.lang.System.exit;
 
 
-public class Day9 {
+public class Day9 implements AdventOfCodeInterface {
 
     static StringBuilder unsortedMemory = new StringBuilder();
     static StringBuilder sortedMemory = new StringBuilder();
     static Set<Pair<Integer, Integer>> files = new TreeSet<>();
 
-    private static long part1() {
+    public long part1() {
         long total = 0;
 
         String string = unsortedMemory.toString();
@@ -48,7 +48,7 @@ public class Day9 {
         return total;
     }
 
-    private static long part2() {
+    public long part2() {
         long total = 0;
 
         ArrayList<Pair<Integer, Integer>> reversedFiles = new ArrayList<>(files);
@@ -103,7 +103,7 @@ public class Day9 {
         sb.replace(index, index + replacement.length(), replacement);
     }
 
-    private static void readInput(List<String> input) {
+    public void readInput(List<String> input) {
 
         String line = input.get(0);
 
@@ -129,21 +129,5 @@ public class Day9 {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        long startTime = System.currentTimeMillis();
-        List<String> input = Util.readFile(".\\aoc\\src\\main\\resources\\day9.txt");
-        readInput(input);
-
-        System.out.printf("P1 = %s%n", part1());
-        long endtime = System.currentTimeMillis();
-        System.out.println("P1 took " + (endtime - startTime) + " milliseconds");
-        System.out.println();
-
-        startTime = System.currentTimeMillis();
-        System.out.printf("P2 = %s%n", part2());
-        endtime = System.currentTimeMillis();
-        System.out.println("P2 took " + (endtime - startTime) + " milliseconds");
     }
 }

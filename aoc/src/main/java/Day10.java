@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class Day10 {
+public class Day10 implements AdventOfCodeInterface {
 
     private static final int MAX_HEIGHT = 9;
 
@@ -28,7 +28,7 @@ public class Day10 {
     static List<List<Pair<Integer, Integer>>> hikes = new ArrayList<>();
     static List<String> map = new ArrayList<>();
 
-    private static long part1() {
+    public long part1() {
         long total = 0;
 
         for (List<Pair<Integer, Integer>> hike : hikes) {
@@ -46,7 +46,7 @@ public class Day10 {
         return total;
     }
 
-    private static long part2() {
+    public long part2() {
         long total = 0;
 
         for (List<Pair<Integer, Integer>> hike : hikes) {
@@ -133,7 +133,7 @@ public class Day10 {
         return map.get(location.key()).charAt(location.value());
     }
 
-    private static void readInput(List<String> input) {
+    public void readInput(List<String> input) {
         map = input;
 
         for (int i = 0; i < input.size(); i++) {
@@ -150,21 +150,5 @@ public class Day10 {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        List<String> input = Util.readFile(".\\aoc\\src\\main\\resources\\day10.txt");
-        readInput(input);
-        long startTime = System.currentTimeMillis();
-
-        System.out.printf("P1 = %s%n", part1());
-        long endtime = System.currentTimeMillis();
-        System.out.println("P1 took " + (endtime - startTime) + " milliseconds");
-        System.out.println();
-
-        startTime = System.currentTimeMillis();
-        System.out.printf("P2 = %s%n", part2());
-        endtime = System.currentTimeMillis();
-        System.out.println("P2 took " + (endtime - startTime) + " milliseconds");
     }
 }

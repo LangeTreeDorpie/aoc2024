@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,14 +7,14 @@ import java.util.Objects;
 import java.util.Set;
 
 
-public class Day8 {
+public class Day8 implements AdventOfCodeInterface {
     static Map<String, List<Pair<Integer, Integer>>> antennaPositions = new HashMap<>();
     static Set<Pair<Integer, Integer>> antiAntennaPositions = new HashSet<>();
 
     static Integer MAX_ROW;
     static Integer MAX_COLUMN;
 
-    private static int part1() {
+    public long part1() {
         antiAntennaPositions.clear();
 
         for(Map.Entry<String, List<Pair<Integer, Integer>>> entry : antennaPositions.entrySet()) {
@@ -29,7 +28,7 @@ public class Day8 {
         return antiAntennaPositions.size();
     }
 
-    private static int part2() {
+    public long part2() {
         antiAntennaPositions.clear();
 
         for(Map.Entry<String, List<Pair<Integer, Integer>>> entry : antennaPositions.entrySet()) {
@@ -83,7 +82,7 @@ public class Day8 {
         return position.key() < 0 || position.key() >= MAX_COLUMN || position.value() < 0 || position.value() >= MAX_ROW;
     }
 
-    private static void readInput(List<String> input){
+    public void readInput(List<String> input){
 
         MAX_ROW = input.size();
         MAX_COLUMN = input.get(0).length();
@@ -102,23 +101,6 @@ public class Day8 {
           }
           i++;
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        long startTime = System.currentTimeMillis();
-        List<String> input = Util.readFile(".\\aoc\\src\\main\\resources\\day8.txt");
-        readInput(input);
-
-        System.out.printf("P1 = %s%n", part1());
-        long endtime = System.currentTimeMillis();
-        System.out.println("P1 took " + (endtime - startTime) + " milliseconds");
-        System.out.println();
-
-        startTime = System.currentTimeMillis();
-        System.out.printf("P2 = %s%n", part2());
-        endtime = System.currentTimeMillis();
-        System.out.println("P2 took " + (endtime - startTime) + " milliseconds");
-
     }
 }
 

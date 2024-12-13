@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class Day6 {
+public class Day6 implements AdventOfCodeInterface {
 
     static final int LOOP_LIMIT = 8000;
     static Pair<Integer, Integer> currentLocation;
@@ -30,14 +30,14 @@ public class Day6 {
     static List<String> map;
     static List<String> initialMap;
 
-    private static long part1() {
+    public long part1() {
 
         patrol(true);
 
         return countVisitedLocations();
     }
 
-    private static long part2() {
+    public long part2() {
 
         long loopsFound = 0;
 
@@ -90,7 +90,7 @@ public class Day6 {
         return steps != LOOP_LIMIT;
     }
 
-    private static void findStartConditions(List<String> input) {
+    public void readInput(List<String> input) {
 
         Map<String, Direction> headingIcon = Map.of(
                 ">", Direction.EAST,
@@ -154,22 +154,5 @@ public class Day6 {
             case SOUTH -> heading = Direction.WEST;
             case WEST -> heading = Direction.NORTH;
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        long startTime = System.currentTimeMillis();
-        List<String> input = Util.readFile(".\\aoc\\src\\main\\resources\\day6.txt");
-
-        findStartConditions(input);
-
-        System.out.printf("P1 = %s%n", part1());
-        long endtime = System.currentTimeMillis();
-        System.out.println("P1 took " + (endtime - startTime) + " milliseconds");
-        System.out.println();
-
-        startTime = System.currentTimeMillis();
-        System.out.printf("P2 = %s%n", part2());
-        endtime = System.currentTimeMillis();
-        System.out.println("P2 took " + (endtime - startTime) + " milliseconds");
     }
 }
