@@ -1,3 +1,5 @@
+package days;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,14 +11,7 @@ public class Day11 implements AdventOfCodeInterface {
 
     static List<Long> stones = new ArrayList<>();
 
-    public long part1() {
-        return generalizedSolution(stones, 25);
-    }
-
-    public long part2() {
-        return generalizedSolution(stones, 75);
-    }
-
+    @Override
     public void readInput(List<String> input) {
         String[] s = input.get(0).split(" ");
 
@@ -24,6 +19,16 @@ public class Day11 implements AdventOfCodeInterface {
             long stoneValue = Long.parseLong(stoneString);
             stones.add(stoneValue);
         });
+    }
+
+    @Override
+    public long part1() {
+        return generalizedSolution(stones, 25);
+    }
+
+    @Override
+    public long part2() {
+        return generalizedSolution(stones, 75);
     }
 
     static List<Long> stoneRules(Long stone) {

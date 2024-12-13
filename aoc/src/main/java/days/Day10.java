@@ -1,4 +1,8 @@
-import java.io.IOException;
+package days;
+
+import Utils.Heading;
+import Utils.Pair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,28 +10,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static Utils.HeadingUtils.headingMutation;
+
 
 public class Day10 implements AdventOfCodeInterface {
 
     private static final int MAX_HEIGHT = 9;
-
-    public enum Direction {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST
-    }
-
-    static final Map<Direction, Pair<Integer, Integer>> headingMutation = Map.of(
-            Direction.NORTH, new Pair<>(-1, 0),
-            Direction.EAST, new Pair<>(0, 1),
-            Direction.SOUTH, new Pair<>(1, 0),
-            Direction.WEST, new Pair<>(0, -1)
-    );
-
     static List<List<Pair<Integer, Integer>>> hikes = new ArrayList<>();
     static List<String> map = new ArrayList<>();
 
+    @Override
+    public void readInput(List<String> input) {
+        map = input;
+
+        for (int i = 0; i < input.size(); i++) {
+            String line = input.get(i);
+
+            for (int j = 0; j < line.length(); j++) {
+                char currentChar = line.charAt(j);
+
+                if (currentChar == '0') {
+                    Pair<Integer, Integer> hikeStartPoint = new Pair<>(i, j);
+                    ArrayList<Pair<Integer, Integer>> newHike = new ArrayList<>();
+                    newHike.add(hikeStartPoint);
+                    hikes.add(newHike);
+                }
+            }
+        }
+    }
+
+    @Override
     public long part1() {
         long total = 0;
 
@@ -46,6 +58,7 @@ public class Day10 implements AdventOfCodeInterface {
         return total;
     }
 
+    @Override
     public long part2() {
         long total = 0;
 
@@ -103,20 +116,21 @@ public class Day10 implements AdventOfCodeInterface {
     private static List<Pair<Integer, Integer>> findNextHikePaths(Pair<Integer, Integer> currentLocation, int currentLocationHeight) {
         List<Pair<Integer, Integer>> nextLocations = new ArrayList<>();
 
-        for (Direction direction : Direction.values()) {
+        for (Heading direction : Heading.values()) {
             Pair<Integer, Integer> nextLocation = getNextLocation(currentLocation, direction);
             try {
                 Integer nextLocationHeight = getHeightLocation(nextLocation);
                 if (stepHasValidIncline(currentLocationHeight, nextLocationHeight)) {
                     nextLocations.add(nextLocation);
                 }
-            } catch (IndexOutOfBoundsException e) {}
+            } catch (IndexOutOfBoundsException e) {
+            }
         }
 
         return nextLocations;
     }
 
-    private static Pair<Integer, Integer> getNextLocation(Pair<Integer, Integer> currentLocation, Direction heading) {
+    private static Pair<Integer, Integer> getNextLocation(Pair<Integer, Integer> currentLocation, Heading heading) {
         Pair<Integer, Integer> integerIntegerPair = headingMutation.get(heading);
         return new Pair<>(currentLocation.key() + integerIntegerPair.key(), currentLocation.value() + integerIntegerPair.value());
     }
@@ -131,24 +145,5 @@ public class Day10 implements AdventOfCodeInterface {
 
     private static char getCharAtLocation(Pair<Integer, Integer> location) {
         return map.get(location.key()).charAt(location.value());
-    }
-
-    public void readInput(List<String> input) {
-        map = input;
-
-        for (int i = 0; i < input.size(); i++) {
-            String line = input.get(i);
-
-            for (int j = 0; j < line.length(); j++) {
-                char currentChar = line.charAt(j);
-
-                if (currentChar == '0') {
-                    Pair<Integer, Integer> hikeStartPoint = new Pair<>(i, j);
-                    ArrayList<Pair<Integer, Integer>> newHike = new ArrayList<>();
-                    newHike.add(hikeStartPoint);
-                    hikes.add(newHike);
-                }
-            }
-        }
     }
 }

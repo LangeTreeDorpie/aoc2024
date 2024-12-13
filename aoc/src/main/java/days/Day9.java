@@ -1,9 +1,11 @@
-import java.io.IOException;
+package days;
+
+import Utils.BaseConverter;
+import Utils.Pair;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -16,6 +18,36 @@ public class Day9 implements AdventOfCodeInterface {
     static StringBuilder sortedMemory = new StringBuilder();
     static Set<Pair<Integer, Integer>> files = new TreeSet<>();
 
+    @Override
+    public void readInput(List<String> input) {
+
+        String line = input.get(0);
+
+        if (line.length() % 2 == 0) {
+            System.out.println("invalid input, length of input is even");
+            exit(1);
+        }
+
+        for (int i = 0; i < line.length(); i++) {
+            long parsedInt = Long.parseLong(String.valueOf(line.charAt(i)));
+
+            if (i % 2 == 0) {
+
+                files.add(new Pair(i / 2, (int) parsedInt));
+            }
+
+            for (int j = 0; j < parsedInt; j++) {
+                if (i % 2 == 0) {
+                    String customBase = BaseConverter.toCustomBase(i / 2);
+                    unsortedMemory.append(customBase);
+                } else {
+                    unsortedMemory.append(".");
+                }
+            }
+        }
+    }
+
+    @Override
     public long part1() {
         long total = 0;
 
@@ -23,7 +55,7 @@ public class Day9 implements AdventOfCodeInterface {
         int startPointer = 0;
         int endPointer = string.length() - 1;
 
-        while (startPointer < endPointer+1) {
+        while (startPointer < endPointer + 1) {
 
             if (string.charAt(startPointer) == '.') {
                 if (string.charAt(endPointer) == '.') {
@@ -48,6 +80,7 @@ public class Day9 implements AdventOfCodeInterface {
         return total;
     }
 
+    @Override
     public long part2() {
         long total = 0;
 
@@ -101,33 +134,5 @@ public class Day9 implements AdventOfCodeInterface {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
         sb.replace(index, index + replacement.length(), replacement);
-    }
-
-    public void readInput(List<String> input) {
-
-        String line = input.get(0);
-
-        if (line.length() % 2 == 0) {
-            System.out.println("invalid input, length of input is even");
-            exit(1);
-        }
-
-        for (int i = 0; i < line.length(); i++) {
-            long parsedInt = Long.parseLong(String.valueOf(line.charAt(i)));
-
-            if (i % 2 == 0){
-
-                files.add(new Pair(i/2, (int) parsedInt));
-            }
-
-            for (int j = 0; j < parsedInt; j++) {
-                if (i % 2 == 0) {
-                    String customBase = BaseConverter.toCustomBase(i / 2);
-                    unsortedMemory.append(customBase);
-                } else {
-                    unsortedMemory.append(".");
-                }
-            }
-        }
     }
 }

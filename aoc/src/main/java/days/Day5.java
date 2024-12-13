@@ -1,4 +1,8 @@
-import java.io.IOException;
+package days;
+
+import Utils.Pair;
+import Utils.Util;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +15,13 @@ public class Day5 implements AdventOfCodeInterface {
     static List<List<Integer>> validBooks = new ArrayList<>();
     static List<List<Integer>> inValidBooks = new ArrayList<>();
 
+    @Override
+    public void readInput(List<String> input) {
+        readRules(input);
+        createBooks(input);
+    }
+
+    @Override
     public long part1() {
 
         int total = 0;
@@ -22,6 +33,7 @@ public class Day5 implements AdventOfCodeInterface {
         return total;
     }
 
+    @Override
     public long part2() {
 
         int total = 0;
@@ -53,12 +65,7 @@ public class Day5 implements AdventOfCodeInterface {
 
     private static Integer getValueOfMiddlePage(List<Integer> book) {
         int size = book.size();
-        return book.get(size/2);
-    }
-
-    public void readInput(List<String> input) {
-        readRules(input);
-        createBooks(input);
+        return book.get(size / 2);
     }
 
     private static void readRules(List<String> input) {

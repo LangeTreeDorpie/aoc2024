@@ -1,8 +1,14 @@
-import java.io.IOException;
+package days;
+
+import Utils.Heading;
+import Utils.Pair;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static Utils.HeadingUtils.getNextHeadingClockWise;
+import static Utils.HeadingUtils.headingMutation;
 
 public class Day6 implements AdventOfCodeInterface {
 
@@ -10,93 +16,20 @@ public class Day6 implements AdventOfCodeInterface {
     static Pair<Integer, Integer> currentLocation;
     static Pair<Integer, Integer> initialLocation;
 
-    public enum Direction {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST
-    }
-
-    static Direction heading;
-    static Direction initialHeading;
-
-    static final Map<Direction, Pair<Integer, Integer>> headingMutation = Map.of(
-        Direction.NORTH, new Pair<>(-1, 0),
-        Direction.EAST, new Pair<>(0, 1),
-        Direction.SOUTH, new Pair<>(1, 0),
-        Direction.WEST, new Pair<>(0, -1)
-    );
+    static Heading heading;
+    static Heading initialHeading;
 
     static List<String> map;
     static List<String> initialMap;
 
-    public long part1() {
-
-        patrol(true);
-
-        return countVisitedLocations();
-    }
-
-    public long part2() {
-
-        long loopsFound = 0;
-
-        for (var i = 0; i < map.size(); i++) {
-            for (var j = 0; j < map.get(i).length(); j++) {
-                if (map.get(i).charAt(j) == '.') {
-                    addNewObstacle(new Pair<>(i, j));
-
-                    if (!patrol(false)) {
-                        loopsFound++;
-                    }
-
-                    setPlayField();
-                }
-            }
-        }
-
-        return loopsFound;
-    }
-
-
-    private static boolean patrol(boolean markLocationAsVisited) {
-
-        int steps = 0;
-
-        Pair<Integer, Integer> nextLocation = getNextLocation(currentLocation, heading);
-
-        while (steps < LOOP_LIMIT) {
-            steps++;
-
-            try {
-                if (markLocationAsVisited){
-                    markLocationAsVisited(currentLocation);
-                }
-
-                while (getIconOnLocation(nextLocation).equals("#")) {
-                    changeHeadingDirection();
-                    nextLocation = getNextLocation(currentLocation, heading);
-                }
-
-                currentLocation = nextLocation;
-
-                nextLocation = getNextLocation(currentLocation, heading);
-
-            } catch (Exception e) {
-                return true;
-            }
-        }
-
-        return steps != LOOP_LIMIT;
-    }
-
+    @Override
     public void readInput(List<String> input) {
 
-        Map<String, Direction> headingIcon = Map.of(
-                ">", Direction.EAST,
-                "<", Direction.WEST,
-                "^", Direction.NORTH,
-                "v", Direction.SOUTH
+        Map<String, Heading> headingIcon = Map.of(
+                ">", Heading.EAST,
+                "<", Heading.WEST,
+                "^", Heading.NORTH,
+                "v", Heading.SOUTH
         );
 
         initialMap = input;
@@ -116,11 +49,70 @@ public class Day6 implements AdventOfCodeInterface {
         }
     }
 
+    @Override
+    public long part1() {
+
+        patrol(true);
+        return countVisitedLocations();
+    }
+
+    @Override
+    public long part2() {
+
+        long loopsFound = 0;
+
+        for (var i = 0; i < map.size(); i++) {
+            for (var j = 0; j < map.get(i).length(); j++) {
+                if (map.get(i).charAt(j) == '.') {
+                    addNewObstacle(new Pair<>(i, j));
+
+                    if (!patrol(false)) {
+                        loopsFound++;
+                    }
+
+                    setPlayField();
+                }
+            }
+        }
+        return loopsFound;
+    }
+
+    private static boolean patrol(boolean markLocationAsVisited) {
+
+        int steps = 0;
+
+        Pair<Integer, Integer> nextLocation = getNextLocation(currentLocation, heading);
+
+        while (steps < LOOP_LIMIT) {
+            steps++;
+
+            try {
+                if (markLocationAsVisited) {
+                    markLocationAsVisited(currentLocation);
+                }
+
+                while (getIconOnLocation(nextLocation).equals("#")) {
+                    heading = getNextHeadingClockWise(heading);
+                    nextLocation = getNextLocation(currentLocation, heading);
+                }
+
+                currentLocation = nextLocation;
+
+                nextLocation = getNextLocation(currentLocation, heading);
+
+            } catch (Exception e) {
+                return true;
+            }
+        }
+
+        return steps != LOOP_LIMIT;
+    }
+
     private static String getIconOnLocation(Pair<Integer, Integer> location) {
         return String.valueOf(map.get(location.key()).charAt(location.value()));
     }
 
-    private static Pair<Integer, Integer> getNextLocation(Pair<Integer, Integer> currentLocation, Direction heading) {
+    private static Pair<Integer, Integer> getNextLocation(Pair<Integer, Integer> currentLocation, Heading heading) {
         Pair<Integer, Integer> integerIntegerPair = headingMutation.get(heading);
         return new Pair<>(currentLocation.key() + integerIntegerPair.key(), currentLocation.value() + integerIntegerPair.value());
     }
@@ -145,14 +137,5 @@ public class Day6 implements AdventOfCodeInterface {
         map = new ArrayList<>(initialMap);
         currentLocation = new Pair<>(initialLocation.key(), initialLocation.value());
         heading = initialHeading;
-    }
-
-    private static void changeHeadingDirection() {
-        switch (heading) {
-            case NORTH -> heading = Direction.EAST;
-            case EAST -> heading = Direction.SOUTH;
-            case SOUTH -> heading = Direction.WEST;
-            case WEST -> heading = Direction.NORTH;
-        }
     }
 }

@@ -1,3 +1,5 @@
+package days;
+
 import java.util.List;
 
 public interface AdventOfCodeInterface {

@@ -1,4 +1,9 @@
-import java.io.IOException;
+package days;
+
+import Utils.BaseConverter;
+import Utils.Heading;
+import Utils.Pair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,43 +11,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static Utils.HeadingUtils.diagonalMutation;
+import static Utils.HeadingUtils.headingMutation;
+
 
 public class Day12 implements AdventOfCodeInterface {
 
-
-    public enum Direction {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST
-    }
-
-    static final Map<Direction, Pair<Integer, Integer>> headingMutation = Map.of(
-            Direction.NORTH, new Pair<>(-1, 0),
-            Direction.EAST, new Pair<>(0, 1),
-            Direction.SOUTH, new Pair<>(1, 0),
-            Direction.WEST, new Pair<>(0, -1)
-    );
-
-    static final List<Pair<Integer, Integer>> diagonalMutation = List.of(
-            new Pair<>(-1, -1),
-            new Pair<>(-1, 1),
-            new Pair<>(1, -1),
-            new Pair<>(1, 1)
-    );
-
     static List<Integer> validCorner = List.of(1, 2, 4, 6, 7, 8, 9, 11, 13, 14);
-
     static List<String> map = new ArrayList<>();
     static Set<Character> uniqueChars = new HashSet<>();
-
     static Map<Character, Pair<Integer, Integer>> charOwners = new HashMap<>();
-
     static Set<Pair<Integer, Integer>> visitedArea = new HashSet<>();
-
     static List<Set<Pair<Integer, Integer>>> areas = new ArrayList<>();
 
+    @Override
+    public void readInput(List<String> input) {
+        map = input;
 
+        for (String s : map) {
+            for (char c : s.toCharArray()) {
+                uniqueChars.add(c);
+            }
+        }
+
+        for (char c : uniqueChars) {
+            charOwners.put(c, new Pair<>(0, 0));
+        }
+    }
+
+    @Override
     public long part1() {
         long total = 0;
 
@@ -68,6 +65,7 @@ public class Day12 implements AdventOfCodeInterface {
         return total;
     }
 
+    @Override
     public long part2() {
         long total = 0;
 
@@ -218,7 +216,7 @@ public class Day12 implements AdventOfCodeInterface {
     private static List<Character> getNeighbours(Pair<Integer, Integer> currentLocation) {
         List<Character> neighbours = new ArrayList<>();
 
-        for (Direction direction : Direction.values()) {
+        for (Heading direction : Heading.values()) {
             Pair<Integer, Integer> nextLocation = getNextLocation(currentLocation, direction);
             try {
                 neighbours.add(getCharAtLocation(nextLocation));
@@ -236,7 +234,7 @@ public class Day12 implements AdventOfCodeInterface {
         area.add(currentLocation);
         visitedArea.add(currentLocation);
 
-        for (Direction direction : Direction.values()) {
+        for (Heading direction : Heading.values()) {
             Pair<Integer, Integer> nextLocation = getNextLocation(currentLocation, direction);
             try {
                 char ownerOfNextTile = getCharAtLocation(nextLocation);
@@ -255,7 +253,7 @@ public class Day12 implements AdventOfCodeInterface {
         }
     }
 
-    private static Pair<Integer, Integer> getNextLocation(Pair<Integer, Integer> currentLocation, Direction heading) {
+    private static Pair<Integer, Integer> getNextLocation(Pair<Integer, Integer> currentLocation, Heading heading) {
         Pair<Integer, Integer> integerIntegerPair = headingMutation.get(heading);
         return new Pair<>(currentLocation.key() + integerIntegerPair.key(), currentLocation.value() + integerIntegerPair.value());
     }
@@ -266,19 +264,5 @@ public class Day12 implements AdventOfCodeInterface {
 
     private static char getCharAtLocation(Pair<Integer, Integer> location, List<String> customMap) {
         return customMap.get(location.key()).charAt(location.value());
-    }
-
-    public void readInput(List<String> input) {
-        map = input;
-
-        for (String s : map) {
-            for (char c : s.toCharArray()) {
-                uniqueChars.add(c);
-            }
-        }
-
-        for (char c : uniqueChars) {
-            charOwners.put(c, new Pair<>(0, 0));
-        }
     }
 }

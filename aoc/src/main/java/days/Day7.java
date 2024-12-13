@@ -1,6 +1,12 @@
+package days;
+
+import Utils.Pair;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static Utils.Util.hasDecimals;
 
 
 public class Day7 implements AdventOfCodeInterface {
@@ -9,6 +15,30 @@ public class Day7 implements AdventOfCodeInterface {
     static boolean concat = false;
     static int counter = 0;
 
+    @Override
+    public void readInput(List<String> input) {
+        for (String line : input) {
+            String[] split1 = line.split(":");
+            Long total = Long.parseLong(split1[0]);
+            String[] split2 = split1[1].split(" ");
+            List<Long> integers = new ArrayList<>();
+
+            for (String s : split2) {
+                if (s.isEmpty()) {
+                    continue;
+                }
+
+                integers.add(Long.parseLong(s));
+            }
+
+            Collections.reverse(integers);
+
+            Pair<Long, List<Long>> pair = new Pair<>(total, integers);
+            equations.add(pair);
+        }
+    }
+
+    @Override
     public long part1() {
         concat = false;
 
@@ -32,6 +62,7 @@ public class Day7 implements AdventOfCodeInterface {
         return answer;
     }
 
+    @Override
     public long part2() {
         concat = true;
 
@@ -102,31 +133,5 @@ public class Day7 implements AdventOfCodeInterface {
                 recursiveCalculation(values, Long.parseLong(sumString), depth);
             }
         }
-    }
-
-    public void readInput(List<String> input) {
-        for (String line : input) {
-            String[] split1 = line.split(":");
-            Long total = Long.parseLong(split1[0]);
-            String[] split2 = split1[1].split(" ");
-            List<Long> integers = new ArrayList<>();
-
-            for (String s : split2) {
-                if (s.isEmpty()) {
-                    continue;
-                }
-
-                integers.add(Long.parseLong(s));
-            }
-
-            Collections.reverse(integers);
-
-            Pair<Long, List<Long>> pair = new Pair<>(total, integers);
-            equations.add(pair);
-        }
-    }
-
-    private static boolean hasDecimals(Double d) {
-        return d % 1 != 0;
     }
 }
