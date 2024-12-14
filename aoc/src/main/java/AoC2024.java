@@ -19,13 +19,14 @@ public class AoC2024 {
             Day10.class,
             Day11.class,
             Day12.class,
-            Day13.class
+            Day13.class,
+            Day14.class
     );
 
     public static void main(String[] args) throws IOException {
-        runEveryDay();
+//        runEveryDay();
 
-        runOneDay(new Day13());
+        runOneDay(new Day14());
     }
 
     private static void runOneDay(AdventOfCodeInterface day) throws IOException {
